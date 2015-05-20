@@ -277,11 +277,13 @@ angular.module('starter.controllers', [])
       // use the 0th touch element and you get wider device support for free.
       touchmove: function() {
         for ( var i = this.touches.length - 1, touch; i >= 0; i-- ) {
-            touch = this.touches[i];
+          touch = this.touches[i];
 
+          if (this.dragging) {
             this.fillStyle = this.strokeStyle = brushColors[brushColor];
 
-            pixelDataRef.child(Date.now() + ':' + Math.floor(touch.ox) + ',' + Math.floor(touch.oy) + ':' + Math.floor(touch.x) + ',' + Math.floor(touch.y)).set(brushColor + ':' + brushRadius);
+            pixelDataRef.child(Date.now() + ':' + Math.floor(touch.ox) + ',' + Math.floor(touch.oy) + ':' + Math.floor(touch.x) + ',' + Math.floor(touch.y)).set(brushColor + ':' + brushRadius); 
+          }
         }
       }
   });
