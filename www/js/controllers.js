@@ -124,15 +124,28 @@ angular.module('starter.controllers', [])
     template: 'Loading Sonic Canvas...'
   });
 
+  var canvasId = $stateParams.canvasId;
+
+  if (canvasId == 0) {
+    $scope.refImg = 'img/1.jpg';
+    $('.reference').width(650);
+    $('.reference-img').width(650);
+  }
+  else if (canvasId == 1) {
+    $scope.refImg = 'img/2.png';
+    $('.reference').width(1300);
+    $('.reference-img').width(1300);
+  }
+
   // canvas globals
-  var controlsUIHeight = 49 + 50;
+  var controlsUIHeight = 49 + 50 + 60;
   var controlsUIWidth = $(window).width();
   var canvasWidth = $(window).width();
   var canvasHeight = $(window).height() - controlsUIHeight;
   var brushColor = 0;
   var brushColors = [
-    'slategrey', '#445878', 'slateblue', 'dodgerblue', 'white',
-    'teal', 'yellowgreen', 'gold', 'orange', 'crimson'
+    '#111', '#5585a3', '#263144', '#345b9d', '#f3b936',
+    '#2b4c53', '#f8ee93', 'gold', 'orange', 'crimson'
   ];
   // var eraser = brushColors.length - 1;
   var brushRadius = 10;
@@ -164,24 +177,8 @@ angular.module('starter.controllers', [])
     scale.push(root + scaleTypes[scaleType][i]);
   }
 
-// mobile build (limited instruments)
-  // var padPatches = [
-  //   new Patch(3, 42, 0, 0.01, 24, 2, 7),   // cello
-  //   new Patch(3, 42, 0, 0.01, 36, 2, 7),   // cello
-  //   new Patch(3, 42, 0, 0.01, 36, 2, 7),    // cello
-  //   new Patch(3, 42, 0, 0.01, 48, 2, 7),   // cello
-  //   new Patch(3, 42, 0, 0.01, 48, 2, 7)    // cello
-  // ];
-  // var percPatches = [
-  //   new Patch(5, 116, 10, 0.05, 24, 1, 12),   // taiko
-  //   new Patch(5, 116, 10, 0.03, 24, 1, 12)   // taiko
-  // ];
-  // var leadPatches = [
-  //   new Patch(8, 104, 0, 0.01, 36, 2, 12),   // sitar
-  //   new Patch(8, 104, 0, 0.01, 48, 2, 12),   // sitar
-  //   new Patch(8, 104, 0, 0.01, 60, 2, 12)    // sitar
-  // ];
 // regular build
+  // movement 1
   var padPatches = [
     new Patch(0, 95, 0, 0.01, 24, 2, 12),   // sweep
     new Patch(1, 93, 0, 0.01, 48, 2, 12),   // metal
@@ -213,6 +210,7 @@ angular.module('starter.controllers', [])
     brush.style.background = brushColors[i];
     brush.style.width = ((controlsUIWidth / (brushColors.length / 2)) - 3) + 'px';
     brush.style.height = '60px';
+    brush.innerHTML = i + 1;
     $(brushSet).append(brush);
   };
   brushSet = document.createElement('div');
@@ -224,6 +222,7 @@ angular.module('starter.controllers', [])
     brush.style.background = brushColors[i];
     brush.style.width = ((controlsUIWidth / (brushColors.length / 2)) - 3) + 'px';
     brush.style.height = '60px';
+    brush.innerHTML = i + 1;
     $(brushSet).append(brush);
   };
 
@@ -235,7 +234,6 @@ angular.module('starter.controllers', [])
   });
 
   // firebase reference
-  var canvasId = $stateParams.canvasId;
   var pixelDataRef = new Firebase('https://amber-torch-7567.firebaseio.com/slork/canvas/' + canvasId);
 
   var canvasesRef = new Firebase("https://amber-torch-7567.firebaseio.com/slork/canvases");
@@ -271,7 +269,13 @@ angular.module('starter.controllers', [])
       },
       // Event handlers
       keydown: function() {
-        if ( this.keys.C ) this.clear();
+        // if ( this.keys.C ) this.clear();
+        if ( this.keys.Q ) 
+          $('canvas')[0].style.opacity = 0.2;
+        if ( this.keys.W ) 
+          $('canvas')[0].style.opacity = 0.6;
+        if ( this.keys.E ) 
+          $('canvas')[0].style.opacity = 1;
       },
       // Mouse & touch events are merged, so handling touch events by default
       // and powering sketches using the touches array is recommended for easy
@@ -342,20 +346,22 @@ angular.module('starter.controllers', [])
     patches[colorId].decreaseVolume();
     patches[colorId].decreaseDensity();
 
-    var coordsOld = snapshot.key().split(':')[1].split(',');
-    var coords = snapshot.key().split(':')[2].split(',');
-    var color = '#FFFFFF';
-    canvas.fillStyle = canvas.strokeStyle = color;
-    var radius = snapshot.val().split(':')[1];
-    
-    canvas.lineCap = 'round';
-    canvas.lineJoin = 'round';
+    canvas.clear();
 
-    canvas.lineWidth = radius + kEraserCorrectionRadius;
-    canvas.beginPath();
-    canvas.moveTo(coordsOld[0], coordsOld[1]);
-    canvas.lineTo(coords[0], coords[1]);
-    canvas.stroke();
+    // var coordsOld = snapshot.key().split(':')[1].split(',');
+    // var coords = snapshot.key().split(':')[2].split(',');
+    // var color = '#FFFFFF';
+    // canvas.fillStyle = canvas.strokeStyle = color;
+    // var radius = snapshot.val().split(':')[1];
+    
+    // canvas.lineCap = 'round';
+    // canvas.lineJoin = 'round';
+
+    // canvas.lineWidth = radius + kEraserCorrectionRadius;
+    // canvas.beginPath();
+    // canvas.moveTo(coordsOld[0], coordsOld[1]);
+    // canvas.lineTo(coords[0], coords[1]);
+    // canvas.stroke();
   });
 
   // MIDI 
@@ -749,8 +755,8 @@ angular.module('starter.controllers', [])
   var canvasHeight = $(window).height() - controlsUIHeight;
   var brushColor = 0;
   var brushColors = [
-    'slategrey', '#445878', 'slateblue', 'dodgerblue', 'white',
-    'teal', 'yellowgreen', 'gold', 'orange', 'crimson'
+    '#111', '#5585a3', '#263144', '#345b9d', '#f3b936',
+    '#2b4c53', '#f8ee93', 'gold', 'orange', 'crimson'
   ];
   // var eraser = brushColors.length - 1;
   var brushRadius = 10;
@@ -821,10 +827,10 @@ angular.module('starter.controllers', [])
   canvasRef.on('value', function (snapshot) {
     $scope.canvas = snapshot.val();
     // $scope.$apply();
-    if (!painterLogged) {
-      painterLogged = true;
-      canvasRef.child('painters').set($scope.canvas.painters + 1);
-    }
+    // if (!painterLogged) {
+    //   painterLogged = true;
+    //   canvasRef.child('painters').set($scope.canvas.painters + 1);
+    // }
   });
 
   console.log('firebase setup done');
@@ -1068,7 +1074,7 @@ angular.module('starter.controllers', [])
     for (var i = 0; i < loopers.length; i++) {
       clearInterval(loopers[i].id);
     }
-    canvasRef.child('painters').set($scope.canvas.painters - 1);
+    // canvasRef.child('painters').set($scope.canvas.painters - 1);
     $ionicHistory.goBack();
   }
 });

@@ -13,7 +13,7 @@ $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 */
-$dark:                            #111 !default;
+$dark:                            #353535 !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -55,6 +55,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .brush {
 	margin-left: 3px;
 	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 60px;
+	color: #fff;
+	font-size: 16px;
 }
 
 .brush-size-range {
@@ -89,4 +94,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			line-height: 24px;
 		}
 	}
+}
+
+.reference {
+	margin: 0 auto;
+
+	.reference-img {
+		height: auto;
+	}
+}
+
+canvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
 }

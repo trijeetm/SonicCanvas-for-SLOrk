@@ -13,6 +13,9 @@
   </ion-nav-bar> 
 
   <ion-content>
+    <div class="reference">
+      <img src="{{refImg}}" class="reference-img">
+    </div>
 
     <div id="canvas"></div>
     <div id="canvas-controls">
@@ -22,7 +25,7 @@
       <div id="brushes"></div>  
       <div class="range range-positive brush-size-range">
         <i class="icon ion-paintbrush"></i>
-        <input class="brush-size" type="range" name="volume" min="1" max="30" value="15">
+        <input class="brush-size" type="range" name="volume" min="1" max="60" value="20">
         <button class="button button-small button-assertive" ng-click="clearCanvas()">
           Clear Canvas
         </button>
