@@ -128,13 +128,13 @@ angular.module('starter.controllers', [])
 
   if (canvasId == 0) {
     $scope.refImg = 'img/1.jpg';
-    $('.reference').width(650);
-    $('.reference-img').width(650);
+    $('.reference').width(510);
+    $('.reference-img').width(510);
   }
   else if (canvasId == 1) {
     $scope.refImg = 'img/2.png';
-    $('.reference').width(1300);
-    $('.reference-img').width(1300);
+    $('.reference').width(1010);
+    $('.reference-img').width(1010);
   }
 
   // canvas globals
